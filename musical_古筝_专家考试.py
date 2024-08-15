@@ -180,7 +180,7 @@ def keypress_thread_func(ctrl):
             continue
 
         # 相邻两帧可能对应的是同一次按键（比如分别位于切割区域的一左一右）
-        if key != last_key or frame_index > last_index + 1:
+        if key != last_key or frame_index > last_index + 2:
             @utils.new_thread
             def custom_keypress(key, delay1, delay2):
                 try:
