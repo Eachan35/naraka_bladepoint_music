@@ -7,7 +7,7 @@ import utils
 import control
 import script
 import param
-import param_通用
+import param_古筝
 
 
 debug = False
@@ -95,9 +95,9 @@ def recognize_thread_func():
         if not utils.is_music_ui(image):
             continue
         time_str = utils.time2str(timestamp)
-        res_top = crop_and_ocr(image, param_通用.args_top, time_str, frame_index)
-        res_middle = crop_and_ocr(image, param_通用.args_middle, time_str, frame_index)
-        res_bottom = crop_and_ocr(image, param_通用.args_bottom, time_str, frame_index)
+        res_top = crop_and_ocr(image, param_古筝.args_top, time_str, frame_index)
+        res_middle = crop_and_ocr(image, param_古筝.args_middle, time_str, frame_index)
+        res_bottom = crop_and_ocr(image, param_古筝.args_bottom, time_str, frame_index)
         result_queue.put((frame_index, timestamp, res_top, res_middle, res_bottom))
 
 
@@ -136,30 +136,30 @@ def keypress_thread_func(ctrl):
         skip = False
 
         if num_top != '':
-            if int(num_top) not in param_通用.map_top.keys():
+            if int(num_top) not in param_古筝.map_top.keys():
                 print(f'[WARNING] map_top中没有对应键: {num_top}')
                 continue
-            key = param_通用.map_top[int(num_top)]
+            key = param_古筝.map_top[int(num_top)]
             num = num_top
             if last_hash_top == hash_top:
                 last_index = frame_index
                 skip = True
             last_hash_top = hash_top
         elif num_middle != '':
-            if int(num_middle) not in param_通用.map_middle.keys():
+            if int(num_middle) not in param_古筝.map_middle.keys():
                 print(f'[WARNING] map_middle没有对应键: {num_middle}')
                 continue
-            key = param_通用.map_middle[int(num_middle)]
+            key = param_古筝.map_middle[int(num_middle)]
             num = num_middle
             if last_hash_middle == hash_middle:
                 last_index = frame_index
                 skip = True
             last_hash_middle = hash_middle
         else:
-            if int(num_bottom) not in param_通用.map_bottom.keys():
+            if int(num_bottom) not in param_古筝.map_bottom.keys():
                 print(f'[WARNING] map_bottom中没有对应键: {num_bottom}')
                 continue
-            key = param_通用.map_bottom[int(num_bottom)]
+            key = param_古筝.map_bottom[int(num_bottom)]
             num = num_bottom
             if last_hash_bottom == hash_bottom:
                 last_index = frame_index
@@ -188,7 +188,7 @@ def keypress_thread_func(ctrl):
                     ctrl.keypress(key, delay2)
                 except control.OperationInterrupt:
                     stop()
-            custom_keypress(key, config.key_delay['通用'], 0.01)
+            custom_keypress(key, config.key_delay['古筝'], 0.01)
             print(f'{frame_index:08d}\t{utils.time2str(timestamp)}\t\t{key}\t{num}')
 
             ack_index = frame_index

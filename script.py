@@ -85,7 +85,6 @@ def loop_script_body(ctrl, mode, type):
     c = ctrl
 
     while run_status.get_status():
-
         # 长按E 开始演奏 (可能会有bug，多重复几次吧)
         c.keypress('E', 2)
         c.delay(1)
@@ -109,8 +108,11 @@ def loop_script_body(ctrl, mode, type):
             c.mouse_wheel(-3000)
             c.delay(1)
 
-            # 选择 《专家-天选》
-            c.moveto(996, 710)
+            # 选择 《专家-天选》，锣选择 《专家-Unchained》
+            if type == "锣":
+                c.moveto(1350, 710)
+            else:
+                c.moveto(996, 710)
             c.delay(0.1)
             c.left_click()
 
@@ -122,7 +124,10 @@ def loop_script_body(ctrl, mode, type):
             # 演奏 并 等待演奏完成
             utils.new_thread(param.type_handles[type]['start'])(ctrl)
             # 乐曲时长
-            c.delay(3 * 60 + 24)
+            if type == "锣":
+                c.delay(3 * 60 + 7)
+            else:
+                c.delay(3 * 60 + 24)
             c.delay(12)
             param.type_handles[type]['stop']()
 
@@ -142,6 +147,6 @@ def loop_script_body(ctrl, mode, type):
         c.keypress(' ')
         c.delay(5)
 
-        # 小跳一下 (为了屏幕中显示 E 键)
-        c.keypress(' ')
+        # 大跳一下 (为了屏幕中显示 E 键)
+        c.keypress(' ', 2)
         c.delay(0.5)
