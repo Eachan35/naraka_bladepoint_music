@@ -1,18 +1,18 @@
 # 绑定按键
 bind_keys = {
-    '扫描-古筝':    'f3',
-    '扫描-通用':    'f4',  # 二胡、曲笛、唢呐
-    '扫描-疆鼓':    'f5',
-    '扫描-梆子':    'f6',
-    '扫描-锣':     'f7',
+    '扫描-古筝': 'f3',
+    '扫描-通用': 'f4',  # 二胡、曲笛、唢呐
+    '扫描-疆鼓': 'f5',
+    '扫描-梆子': 'f6',
+    '扫描-锣': 'f7',
 
-    '循环-古筝':    'f8',
-    '循环-通用':    'f9',
-    '循环-疆鼓':    'f10',
-    '循环-梆子':    'f11',
-    '循环-锣':     'f12',
+    '循环-古筝': 'f8',
+    '循环-通用': 'f9',
+    '循环-疆鼓': 'f10',
+    '循环-梆子': 'f11',
+    '循环-锣': 'f12',
 
-    '结束':         'f1'
+    '结束': 'f1'
 }
 
 # 扫描模式：
@@ -25,20 +25,24 @@ bind_keys = {
 # 演奏两次后退出，然后重复以上流程。
 
 
-
 import yaml
 import os
 
 key_delay = {}
 tesseract_path = ''
+resolution = (1920, 1080)
+
 
 def load_config_yaml():
-
     global key_delay
     global tesseract_path
+    global resolution
     data = yaml.load(open('config.yaml', encoding='utf-8').read(), Loader=yaml.FullLoader)
     key_delay = data['key_delay']
     tesseract_path = data['tesseract_path']
+    resolution = (data["resolution"]['width'], data["resolution"]['height'])
+
     assert os.path.exists(tesseract_path)
+
 
 load_config_yaml()

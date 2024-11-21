@@ -5,10 +5,7 @@ import pyautogui
 import config
 import utils
 import control
-import script
 import param
-import param_梆子
-
 
 debug = False
 temp_dir = r'D:\temp'
@@ -21,6 +18,7 @@ images_queue = queue.Queue()
 result_queue = queue.Queue()
 is_running = False
 queue_get_timeout = 1
+instrument_params = param.get_instrument_params('梆子')
 
 
 # 裁剪图像、OCR
@@ -93,9 +91,9 @@ def recognize_thread_func():
         if not utils.is_music_ui(image):
             continue
         time_str = utils.time2str(timestamp)
-        res_top = crop_and_ocr(image, param_梆子.args_top, time_str, frame_index)
-        res_middle = crop_and_ocr(image, param_梆子.args_middle, time_str, frame_index)
-        res_bottom = crop_and_ocr(image, param_梆子.args_bottom, time_str, frame_index)
+        res_top = crop_and_ocr(image, instrument_params.args_top, time_str, frame_index)
+        res_middle = crop_and_ocr(image, instrument_params.args_middle, time_str, frame_index)
+        res_bottom = crop_and_ocr(image, instrument_params.args_bottom, time_str, frame_index)
         result_queue.put((frame_index, timestamp, res_top, res_middle, res_bottom))
 
 
@@ -132,19 +130,19 @@ def keypress_thread_func(ctrl):
         skip = False
 
         if text_top == '*':
-            key = param_梆子.key_top
+            key = instrument_params.key_top
             if last_hash_top == hash_top:
                 last_index = frame_index
                 skip = True
             last_hash_top = hash_top
         elif text_middle == '*':
-            key = param_梆子.key_middle
+            key = instrument_params.key_middle
             if last_hash_middle == hash_middle:
                 last_index = frame_index
                 skip = True
             last_hash_middle = hash_middle
         else:
-            key = param_梆子.key_bottom
+            key = instrument_params.key_bottom
             if last_hash_bottom == hash_bottom:
                 last_index = frame_index
                 skip = True

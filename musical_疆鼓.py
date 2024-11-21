@@ -5,10 +5,7 @@ import pyautogui
 import config
 import utils
 import control
-import script
 import param
-import param_疆鼓
-
 
 debug = False
 temp_dir = r'D:\temp'
@@ -21,6 +18,7 @@ images_queue = queue.Queue()
 result_queue = queue.Queue()
 is_running = False
 queue_get_timeout = 1
+instrument_params = param.get_instrument_params('疆鼓')
 
 
 # 裁剪图像、OCR
@@ -93,10 +91,10 @@ def recognize_thread_func():
         if not utils.is_music_ui(image):
             continue
         time_str = utils.time2str(timestamp)
-        res_line1 = crop_and_ocr(image, param_疆鼓.args_line1, time_str, frame_index)
-        res_line2 = crop_and_ocr(image, param_疆鼓.args_line2, time_str, frame_index)
-        res_line3 = crop_and_ocr(image, param_疆鼓.args_line3, time_str, frame_index)
-        res_line4 = crop_and_ocr(image, param_疆鼓.args_line4, time_str, frame_index)
+        res_line1 = crop_and_ocr(image, instrument_params.args_line1, time_str, frame_index)
+        res_line2 = crop_and_ocr(image, instrument_params.args_line2, time_str, frame_index)
+        res_line3 = crop_and_ocr(image, instrument_params.args_line3, time_str, frame_index)
+        res_line4 = crop_and_ocr(image, instrument_params.args_line4, time_str, frame_index)
         result_queue.put((frame_index, timestamp, res_line1, res_line2, res_line3, res_line4))
 
 
@@ -134,25 +132,25 @@ def keypress_thread_func(ctrl):
         skip = False
 
         if text_line1 == '*':
-            key = param_疆鼓.key_line1
+            key = instrument_params.key_line1
             if last_hash_line1 == hash_line1:
                 last_index = frame_index
                 skip = True
             last_hash_line1 = hash_line1
         elif text_line2 == '*':
-            key = param_疆鼓.key_line2
+            key = instrument_params.key_line2
             if last_hash_line2 == hash_line2:
                 last_index = frame_index
                 skip = True
             last_hash_line2 = hash_line2
         elif text_line3 == '*':
-            key = param_疆鼓.key_line3
+            key = instrument_params.key_line3
             if last_hash_line3 == hash_line3:
                 last_index = frame_index
                 skip = True
             last_hash_line3 = hash_line3
         else:
-            key = param_疆鼓.key_line4
+            key = instrument_params.key_line4
             if last_hash_line4 == hash_line4:
                 last_index = frame_index
                 skip = True

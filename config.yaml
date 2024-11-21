@@ -8,3 +8,6 @@ key_delay:
   锣: 0.4
 tesseract_path:
   Tesseract-OCR\tesseract.exe
+resolution:
+  width: 2560
+  height: 1440

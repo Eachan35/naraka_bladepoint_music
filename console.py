@@ -11,7 +11,7 @@ def bind_hotkey():
     @utils.new_thread
     def func():
         for mode in ['循环', '扫描']:
-            for type in param.type_handles.keys():
+            for type in param.instrument_types:
                 keyboard.add_hotkey(config.bind_keys[f'{mode}-{type}'], partial(script.start_script, mode, type))
         keyboard.add_hotkey(config.bind_keys['结束'], script.stop_script)
         keyboard.wait()

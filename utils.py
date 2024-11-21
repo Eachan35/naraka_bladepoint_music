@@ -4,6 +4,7 @@ import pyautogui
 import cv2
 import numpy as np
 import config
+import param
 
 
 music_ui_image_path = r'images\perfect.jpg'
@@ -60,6 +61,7 @@ def image_search(image, target):
 
 
 def is_music_ui(image):
+    image = cv2.resize(image, param.DEFAULT_RESOLUTION, interpolation=cv2.INTER_AREA)
     x1 = 17; y1 = 261; x2 = 84; y2 = 305
     image = image[y1:y2, x1:x2]
     res = image_search(image, music_ui_image)
@@ -69,6 +71,7 @@ def is_music_ui(image):
 def find_music_book():
     screenshot = pyautogui.screenshot()
     image = cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
+    image = cv2.resize(image, param.DEFAULT_RESOLUTION, interpolation=cv2.INTER_AREA)
     x1 = 1773; y1 = 322; x2 = 1837; y2 = 392
     image = image[y1:y2, x1:x2]
     res = image_search(image, music_book_image)

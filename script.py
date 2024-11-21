@@ -1,5 +1,4 @@
-import time, threading
-import param_通用
+import threading
 from control import *
 import utils
 import script
@@ -34,6 +33,7 @@ def start_script(mode, type):
 
     ctrl = Control(param.process_name)
     task_ctrls[index] = ctrl
+    type_handle = __import__(f"musical_{type}")
 
     print(f'[{mode}模式] 开始【{type}】演奏')
 
@@ -51,7 +51,7 @@ def start_script(mode, type):
 
     @utils.new_thread
     def scan_thread_func(index):
-        param.type_handles[type]['start'](ctrl)
+        getattr(type_handle, 'start')(ctrl)
         del task_ctrls[index]
 
     if mode == '循环':
@@ -67,8 +67,8 @@ def stop_script():
     print('尝试中止所有演奏操作')
     for ctrl in task_ctrls.values():
         ctrl.interrupt()
-    for type in param.type_handles.keys():
-        param.type_handles[type]['stop']()
+    for type in param.instrument_types:
+        getattr(__import__(f"musical_{type}"), 'stop')()
     up_all_key()
     run_status.set_status(False)
 
@@ -77,12 +77,15 @@ def stop_script():
 def up_all_key(ctrl=None):
     if ctrl is None:
         ctrl = Control(param.process_name)
-    for key in list(param_通用.map_top.values()) + list(param_通用.map_middle.values()) + list(param_通用.map_bottom.values()):
+
+    instrument_params = param.get_instrument_params()
+    for key in list(instrument_params.map_top.values()) + list(instrument_params.map_middle.values()) + list(instrument_params.map_bottom.values()):
         ctrl.keyup(key)
 
 
 def loop_script_body(ctrl, mode, type):
     c = ctrl
+    type_handle = __import__(f"musical_{type}")
 
     while run_status.get_status():
         # 长按E 开始演奏 (可能会有bug，多重复几次吧)
@@ -91,45 +94,50 @@ def loop_script_body(ctrl, mode, type):
         while not utils.find_music_book():
             c.keypress('E', 2)
             c.delay(1)
-        c.delay(3)
+        c.delay(1)
 
         # 演奏几次
         times = 2
         for i in range(times):
             # 打开 曲艺手册
-            c.moveto(1818, 356)
+            # c.moveto(1818, 356)
+            c.moveto(int(1818 * param.scale_x), int(356 * param.scale_y))
             c.delay(0.1)
             c.left_click()
             c.delay(1)
 
             # 曲艺手册 翻到最后
-            c.moveto(996, 710)
+            # c.moveto(996, 710)
+            c.moveto(int(996 * param.scale_x), int(710 * param.scale_y))
             c.delay(0.5)
-            c.mouse_wheel(-3000)
+            c.mouse_wheel(-int(3000 * param.scale_y))
             c.delay(1)
 
             # 选择 《专家-天选》，锣选择 《专家-Unchained》
             if type == "锣":
-                c.moveto(1350, 710)
+                # c.moveto(1350, 710)
+                c.moveto(int(1350 * param.scale_x), int(710 * param.scale_y))
             else:
-                c.moveto(996, 710)
+                # c.moveto(996, 710)
+                c.moveto(int(996 * param.scale_x), int(710 * param.scale_y))
             c.delay(0.1)
             c.left_click()
 
             # 点击 开始演奏
-            c.moveto(1689, 943)
+            # c.moveto(1689, 943)
+            c.moveto(int(1689 * param.scale_x), int(943 * param.scale_y))
             c.delay(0.1)
             c.left_click()
 
             # 演奏 并 等待演奏完成
-            utils.new_thread(param.type_handles[type]['start'])(ctrl)
+            utils.new_thread(getattr(type_handle, 'start'))(ctrl)
             # 乐曲时长
             if type == "锣":
                 c.delay(3 * 60 + 7)
             else:
                 c.delay(3 * 60 + 24)
-            c.delay(12)
-            param.type_handles[type]['stop']()
+            c.delay(6)
+            getattr(type_handle, 'stop')()
 
             # 确认获取熟练度窗口，有时会出两次
             c.keypress(' ')
@@ -142,10 +150,10 @@ def loop_script_body(ctrl, mode, type):
 
         # 按esc起身
         c.keypress('\x1b')
-        c.delay(3)
+        c.delay(2)
         # 确认获取熟练度窗口，有时这里也会出现
         c.keypress(' ')
-        c.delay(5)
+        c.delay(2)
 
         # 大跳一下 (为了屏幕中显示 E 键)
         c.keypress(' ', 2)
