@@ -50,14 +50,10 @@ def get_instrument_params(instrument_type='通用'):
         instrument_params['key_line3'] = 'H'
         instrument_params['key_line4'] = 'J'
 
-        instrument_params['args_line1'] = (
-        int(x * scale_x), int(128 * scale_y), int(width * scale_x), int(height * scale_y), 'top')
-        instrument_params['args_line2'] = (
-        int(x * scale_x), int(202 * scale_y), int(width * scale_x), int(height * scale_y), 'middle')
-        instrument_params['args_line3'] = (
-        int(x * scale_x), int(276 * scale_y), int(width * scale_x), int(height * scale_y), 'bottom')
-        instrument_params['args_line4'] = (
-        int(x * scale_x), int(348 * scale_y), int(width * scale_x), int(height * scale_y), 'bottom')
+        instrument_params['args_line1'] = (x, 128, width, height, 'line1')
+        instrument_params['args_line2'] = (x, 202, width, height, 'line2')
+        instrument_params['args_line3'] = (x, 276, width, height, 'line3')
+        instrument_params['args_line4'] = (x, 348, width, height, 'line4')
 
     elif instrument_type == "锣":
         x -= 10
@@ -66,12 +62,9 @@ def get_instrument_params(instrument_type='通用'):
         instrument_params['map_middle'] = {5: 'D', 6: 'F', 7: 'H', 8: 'J'}
         instrument_params['map_bottom'] = {1: 'C', 2: 'V', 3: 'N', 4: 'M'}
 
-    instrument_params['args_top'] = (
-    int(x * scale_x), int(145 * scale_y), int(width * scale_x), int(height * scale_y), 'top')
-    instrument_params['args_middle'] = (
-    int(x * scale_x), int(240 * scale_y), int(width * scale_x), int(height * scale_y), 'middle')
-    instrument_params['args_bottom'] = (
-    int(x * scale_x), int(335 * scale_y), int(width * scale_x), int(height * scale_y), 'bottom')
+    instrument_params['args_top'] = (x, 145, width, height, 'top')
+    instrument_params['args_middle'] = (x, 240, width, height, 'middle')
+    instrument_params['args_bottom'] = (x, 335, width, height, 'bottom')
 
     # 用于判断/计算长按按键相关
     long_width = 1000

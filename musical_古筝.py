@@ -70,8 +70,7 @@ def screenshot_thread_func():
 
     while is_running:
         begin = time.time()
-        screenshot = pyautogui.screenshot()
-        image = screenshot#cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
+        image = pyautogui.screenshot()
         images_queue.put((frame_index, begin, image))
         frame_index += 1
         end = time.time()
@@ -90,6 +89,7 @@ def recognize_thread_func():
         except queue.Empty:
             continue
         image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+        image = cv2.resize(image, param.DEFAULT_RESOLUTION, interpolation=cv2.INTER_AREA)
         if not utils.is_music_ui(image):
             continue
         time_str = utils.time2str(timestamp)

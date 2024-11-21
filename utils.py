@@ -61,7 +61,6 @@ def image_search(image, target):
 
 
 def is_music_ui(image):
-    image = cv2.resize(image, param.DEFAULT_RESOLUTION, interpolation=cv2.INTER_AREA)
     x1 = 17; y1 = 261; x2 = 84; y2 = 305
     image = image[y1:y2, x1:x2]
     res = image_search(image, music_ui_image)

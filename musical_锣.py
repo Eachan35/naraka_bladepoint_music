@@ -90,6 +90,7 @@ def recognize_thread_func():
         except queue.Empty:
             continue
         image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+        image = cv2.resize(image, param.DEFAULT_RESOLUTION, interpolation=cv2.INTER_AREA)
         if not utils.is_music_ui(image):
             continue
         time_str = utils.time2str(timestamp)
