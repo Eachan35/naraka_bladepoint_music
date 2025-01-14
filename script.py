@@ -1,7 +1,6 @@
 import threading
 from control import *
 import utils
-import script
 import param
 
 class RunStatus:
@@ -40,7 +39,7 @@ def start_script(mode, type):
     @utils.new_thread
     def loop_thread_func(index):
         try:
-            script.loop_script_body(ctrl, mode, type)
+            loop_script_body(ctrl, mode, type)
             print(f'[{mode}模式] 完成【{type}】演奏')
         except OperationInterrupt:
             print(f'[{mode}模式] 中止【{type}】演奏')
@@ -89,10 +88,8 @@ def loop_script_body(ctrl, mode, type):
 
     while run_status.get_status():
         # 长按E 开始演奏 (可能会有bug，多重复几次吧)
-        c.keypress('E', 2)
-        c.delay(1)
         while not utils.find_music_book():
-            c.keypress('E', 2)
+            c.keypress(param.interaction_key, 2)
             c.delay(1)
         c.delay(1)
 

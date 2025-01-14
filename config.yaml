@@ -6,8 +6,12 @@ key_delay:
   疆鼓: 0.49
   梆子: 0.49
   锣: 0.33
-tesseract_path:
-  Tesseract-OCR\tesseract.exe
+tesseract_path: Tesseract-OCR\tesseract.exe
+
+# 交互鍵
+interaction_key: E
+
+# 分辨率
 resolution:
   width: 2560
   height: 1440

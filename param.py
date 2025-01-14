@@ -9,6 +9,9 @@ fps = 18
 # 全部乐器
 instrument_types = ['古筝', '通用', '疆鼓', '梆子', '锣']
 
+# 交互鍵
+interaction_key = config.interaction_key
+
 # 自定义分辨率缩放
 DEFAULT_RESOLUTION = (1920, 1080)
 resolution = config.resolution

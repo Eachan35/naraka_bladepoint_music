@@ -29,17 +29,18 @@ import yaml
 import os
 
 key_delay = {}
+interaction_key = 'E'
 tesseract_path = ''
 resolution = (1920, 1080)
 
 
 def load_config_yaml():
-    global key_delay
-    global tesseract_path
-    global resolution
+    global key_delay,interaction_key, tesseract_path, resolution
+
     data = yaml.load(open('config.yaml', encoding='utf-8').read(), Loader=yaml.FullLoader)
     key_delay = data['key_delay']
     tesseract_path = data['tesseract_path']
+    interaction_key = data['interaction_key']
     resolution = (data["resolution"]['width'], data["resolution"]['height'])
 
     assert os.path.exists(tesseract_path)
