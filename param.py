@@ -4,7 +4,7 @@ import config
 process_name = "NarakaBladepoint.exe"
 
 # 每秒截取最大帧数
-fps = 20
+fps = 18
 
 # 全部乐器
 instrument_types = ['古筝', '通用', '疆鼓', '梆子', '锣']

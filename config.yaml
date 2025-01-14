@@ -4,8 +4,8 @@ key_delay:
   古筝: 0.35
   通用: 0.38
   疆鼓: 0.49
-  梆子: 0.52
-  锣: 0.4
+  梆子: 0.49
+  锣: 0.33
 tesseract_path:
   Tesseract-OCR\tesseract.exe
 resolution:
